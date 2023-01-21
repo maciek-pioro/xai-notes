@@ -1,250 +1,429 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="UTF-8">
-    <title>Lectures</title>
-    <style>
-        /* From extension vscode.github */
-        /*---------------------------------------------------------------------------------------------
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Lectures</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-        .vscode-dark img[src$=\#gh-light-mode-only],
-        .vscode-light img[src$=\#gh-dark-mode-only] {
-            display: none;
-        }
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
 
-        /* From extension ms-toolsai.jupyter */
-        /* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+/* From extension ms-toolsai.jupyter */
+/* These classnames are inherited from bootstrap, but are present in most notebook renderers */
 
-        .alert {
-            width: auto;
-            padding: 1em;
-            margin-top: 1em;
-            margin-bottom: 1em;
-        }
+.alert {
+    width: auto;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.alert > *:last-child {
+    margin-bottom: 0;
+}
+#preview > .alert:last-child {
+    /* Prevent this being set to zero by the default notebook stylesheet */
+    padding-bottom: 1em;
+}
 
-        .alert>*:last-child {
-            margin-bottom: 0;
-        }
+.alert-success {
+    /* Note there is no suitable color available, so we just copy "info" */
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-info {
+    background-color: var(--theme-info-background);
+    color: var(--theme-info-foreground);
+}
+.alert-warning {
+    background-color: var(--theme-warning-background);
+    color: var(--theme-warning-foreground);
+}
+.alert-danger {
+    background-color: var(--theme-error-background);
+    color: var(--theme-error-foreground);
+}
 
-        #preview>.alert:last-child {
-            /* Prevent this being set to zero by the default notebook stylesheet */
-            padding-bottom: 1em;
-        }
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
 
-        .alert-success {
-            /* Note there is no suitable color available, so we just copy "info" */
-            background-color: var(--theme-info-background);
-            color: var(--theme-info-foreground);
-        }
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="sesja-zima-2023">Sesja Zima 2023</h1>
+<h2 id="xai">XAI</h2>
+<h3 id="lectures">Lectures</h3>
+<ul>
+<li>
+<p><a href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/01_introduction.html">01_introduction.html</a></p>
+<ul>
+<li>
+<p>Methods can be</p>
+<ul>
+<li>Interpretable by design (kNN, linear regression, naive bayes)</li>
+<li>Model specific (e. g. gradient-flow based methods in Neural Networks)</li>
+<li><strong>Model agnostic ← main focus of this lecture</strong></li>
+</ul>
+</li>
+<li>
+<p>The pyramid of explainability:</p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/xai_pyramid.webp" alt=""></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/02_shap.html">02_shap.html</a></p>
+<ul>
+<li>
+<p>Paper (A Unified Approach to Interpreting Model Predictions) introduces SHAP, based on the notion of Shapley values introduced in game theory</p>
+</li>
+<li>
+<p>SHAP is placed in (Model Prediction) x (Variable attribution) spot in XAI Pyramid</p>
+</li>
+<li>
+<p>SHAP corresponds to panel C on the following image</p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/xai_piramide_shap2.png" alt=""></p>
+</li>
+<li>
+<p>Shapley values obey:</p>
+<ul>
+<li>Efficiency, i.e. all contributions sum up to the final reward</li>
+<li>Symmetry, i.e. if players <em>i</em> and <em>j</em> contribute in the same way to all coalitions, they get the same reward</li>
+<li><em>Dummy</em>, if a player doesn't contribute in any coalition, their reward is 0</li>
+<li>Additivity, i.e. ...</li>
+</ul>
+</li>
+<li>
+<p>When we want to use Shapley values with an ML model we have:</p>
+<ul>
+<li>
+<p>The reward to be distributed:</p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/shap_reward.png" alt=""></p>
+</li>
+<li>
+<p>Payoff value function for coalition S:</p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/shap_payoff.png" alt=""></p>
+</li>
+<li>
+<p>And Shapley values via permutations:</p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/shap_ml_permutations.png" alt=""></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Accurate computation of Shapley values is very time consuming, so other approximating approaches are used</p>
+</li>
+<li>
+<p>Kernel-SHAP is one such approach - can be thought of as adaptation of LIME</p>
+<ul>
+<li>The interpretable space describes whether a given variable enters a coalition</li>
+<li>If the variable doesn't enter the coalition, its value is sampled from the dataset</li>
+<li>The linear regression coefficients of the fitted model are estimated Shapley values</li>
+</ul>
+</li>
+<li>
+<p>Tree SHAP:
+*</p>
+</li>
+<li>
+<p>Take home message:</p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/take_home_shap.png" alt=""></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/03_lime.html">03_lime.html</a></p>
+<ul>
+<li>
+<p>LIME is a local explanation method focusing on the importance of features (just like SHAP)</p>
+</li>
+<li>
+<p>LIME is visualize on panel B in the following picture</p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/xai_piramide_shap2.png" alt=""></p>
+</li>
+<li>
+<p>In contrast with SHAP, here the attributions don't necessarily add up to 1</p>
+</li>
+<li>
+<p>In this approach:</p>
+<ul>
+<li>A sample is selected</li>
+<li>The sample is encoded into binary (interpretable) space, e.g. split into superpixels</li>
+<li>N samples around the actual datapoint are created by masking some features. Original model's outputs are computed for the artificial samples</li>
+<li>K-LASSO model is created and fit to the binary representations of the artificial datapoints</li>
+<li>K-LASSO coefficients corresponding to the elements of the the interpretable space are features attributions</li>
+</ul>
+</li>
+<li>
+<p>Common ways of creating a binary interpretable space:</p>
+<ul>
+<li>Vision: superpixels</li>
+<li>NLP: words / groups of words</li>
+<li>Tabular data: continuous variables can be discretized (e.g.  split into quartiles). Categorical variables can be one-hot encoded.</li>
+</ul>
+</li>
+<li>
+<p>There are some methods for creating global explanations based on LIME (e.g. Submodular Pick)</p>
+</li>
+<li>
+<p>A problem with LIME is that it does not account for interactions between features, being an additive model</p>
+</li>
+<li>
+<p><em>Anchors</em> is a method aimed at fixing this issue: it searches for <em>sufficient conditions</em> for the model to produce the actual output. E.g. in the following picture we can see a set of features <em>sufficient</em> for the model to decide a picture shows a dog</p>
+</li>
+</ul>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/anchors_1.png" alt=""></p>
+<ul>
+<li>
+<p>Another local method is <em>LORE</em> (Local Rule-Based Explanations). With the help of a genetic algorithm, a set of points representing both class 1 and 0 similar to a given point <em>x</em> is created. Then, a decision tree is trained and used to create both an <em>explanation</em> and a <em>conterfactual explanation</em> (what should be changed so that the model prediction for <em>x</em> flips).</p>
+</li>
+<li>
+<p>Take home message:</p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/xai_take_home_2.png" alt=""></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/04_pdp.html">04_pdp.html</a></p>
+<ul>
+<li>
+<p>CP, PDP and ALE live on the third level of the XAI pyramid:</p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/xai_pyramid.webp" alt=""></p>
+</li>
+<li>
+<p>These methods correspond to panel A in the following illustration:</p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/xai_piramide_shap2.png" alt=""></p>
+</li>
+<li>
+<p>Motivation: methods like SHAP or LIME don't tell us <em>what if</em> the value of some variable was higher. That's why we turn to methods like CP.</p>
+</li>
+<li>
+<p>CP: For a given point X we create an explanation:</p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/CP.png" alt=""></p>
+</li>
+<li>
+<p>There can be hundreds of variables with uninteresting CP profiles - a good way to select which ones to visualize is based on amplitude of oscillations</p>
+</li>
+<li>
+<p>CP can be especially convenient for comparing models</p>
+</li>
+<li>
+<p>CP has the advantage of being a simple method, it means however that it cannot explain interactions between variables. It's also prone to creating OOD-samples.</p>
+</li>
+<li>
+<p>PDP is a method of global explanation - we average CP profiles to aggregate global model response:</p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/cp_pdp.png" alt=""></p>
+</li>
+<li>
+<p>PDPs share the pros and cons of CPPs, i.a. averaging over marginal distribution</p>
+</li>
+<li>
+<p>Instead of averaging over marginal distribution we should focus on conditional distribution:</p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/marginal_vs_conditional.png" alt=""></p>
+</li>
+<li>
+<p>We can do that by bucketing the explained variable and only considering datapoints withing the corresponding bucket when computing the PDP for a given value</p>
+</li>
+<li>
+<p>This method is called Marginal Effects</p>
+</li>
+<li>
+<p>A problem appears - marginal effects carry the cumulative effect of all correlated variables. How do we distil the indivifual contributions? This is where ALE (Accumulated Local Effects) comes in.</p>
+</li>
+<li>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/take-home-cp.png" alt=""></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/05_vip.html">05_vip.html</a></p>
+<ul>
+<li>An issue with all the methods up to this point is that they only consider one model to infer the importance of variable</li>
+<li></li>
+</ul>
+</li>
+<li>
+<p><a href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/06_fairness.html">06_fairness.html</a></p>
+<ul>
+<li>There are many possible source of bias in the data:
+<ul>
+<li>Historical bias</li>
+<li>Representation bias</li>
+<li>Measurement bias</li>
+<li>Evaluation bias</li>
+<li>Proxy bias</li>
+</ul>
+</li>
+<li>Sometimes bias can be desirable (e.g. drugs which work better in females than males)</li>
+<li>Bias can be appear on all levels of model-preparation pipeline:
+<ul>
+<li><img src="file:////home/maciejpioro/Documents/studia/xai-notes/bias_where.png" alt=""></li>
+</ul>
+</li>
+<li>Fairness metrics:
+<ul>
+<li>Most of the time we use a <em>four-fith rule</em> - selection rate of any disadvantaged group should be between <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi mathvariant="normal">/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">4/5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">4/5</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi mathvariant="normal">/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">5/4</span></span></span></span> of the rate of the group with the highest rate</li>
+<li><em>Group fairness / statistical parity / independence / demographic parity</em>:
+<ul>
+<li><img src="file:////home/maciejpioro/Documents/studia/xai-notes/group_fairness.png" alt=""></li>
+<li>Predicted class is independent from protected attribute</li>
+</ul>
+</li>
+<li><em>Equal opportunity</em>:
+<ul>
+<li><img src="file:////home/maciejpioro/Documents/studia/xai-notes/equal_opportunity.png" alt=""></li>
+</ul>
+</li>
+<li><em>Predictive equality</em>:
+<ul>
+<li><img src="file:////home/maciejpioro/Documents/studia/xai-notes/predictive_equality.png" alt=""></li>
+</ul>
+</li>
+<li><em>Equalized odds, Separation, Positive Rate Parity</em>:
+<ul>
+<li><img src="file:////home/maciejpioro/Documents/studia/xai-notes/separation.png" alt=""></li>
+</ul>
+</li>
+<li><em>Positive Predictive Parity</em>:
+<ul>
+<li><img src="file:////home/maciejpioro/Documents/studia/xai-notes/positive_predictive_parity.png" alt=""></li>
+</ul>
+</li>
+<li><em>Negative Predictive Parity</em>:
+<ul>
+<li><img src="file:////home/maciejpioro/Documents/studia/xai-notes/negative-predictive-parity.png" alt=""></li>
+</ul>
+</li>
+<li><em>Predictive Rate Parity, Sufficiency</em>:
+<ul>
+<li><img src="file:////home/maciejpioro/Documents/studia/xai-notes/sufficiency.png" alt=""></li>
+</ul>
+</li>
+<li>Except for trivial cases Independence, Separation and Sufficiency criterions at the same time is impossible (the impossibility theorem)</li>
+<li>In fact each two of the above (Ind, Sep, Suf) are mutually exclusive</li>
+<li>Fairness metrics can be summarised in a single graph:
+<ul>
+<li><img src="file:////home/maciejpioro/Documents/studia/xai-notes/fairness_graph.png" alt=""></li>
+</ul>
+</li>
+<li>How can we mitigate bias?
+<ul>
+<li>Data Pre-processing, e.g. subsampling or case weighting</li>
+<li>Model In-processing, modify criterion e.g. through adversarial training</li>
+<li>Model Post-processing, modify model scores, e.g. use different thresholds</li>
+</ul>
+</li>
+<li>Take-home message:
+<ul>
+<li><img src="file:////home/maciejpioro/Documents/studia/xai-notes/take-home-fairness.png" alt=""></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/07_networks.html">07_networks.html</a></p>
+<ul>
+<li>
+<p>NNs are differentiable - we can compute the gradient of prediction wrt to the input (e.g. for each pixel in the input)</p>
+</li>
+<li>
+<p>One method of computing NN explanation is LRP (Layer-Wise Relevance Propagation), which propagates relevance of pixels through the layers of a network using gradients</p>
+</li>
+<li>
+<p>Another method is IG (Integrated Gradients)</p>
+<ul>
+<li>We take N (50-300) steps from baseline (e.g. all zeros) to the target image</li>
+<li>Integrate (accumulate) gradients along the path</li>
+<li>This approach satisfies:
+<ul>
+<li>Completeness: sum of attributions equals the difference between actual output and baseline</li>
+<li>Sensitivity: if baseline and input differ in one feature and their predictions are different, then the feature's attribution is non-zero</li>
+<li>Implementation invariance: if two neural networks are functionally equivalent (same outputs for the same inputs), their IG is the same</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>A simple improvement to gradient-base methods is SmoothGrad</p>
+<ul>
+<li>Generate multiple samples around the input by adding noise</li>
+<li>For each sample generate feature attribution (e.g. with IG)</li>
+<li>Average the attributions over samples</li>
+</ul>
+</li>
+<li>
+<p>Take-home message:</p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/take-home-nns.png" alt=""></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/08_evaluation.html">08_evaluation.html</a></p>
+<ul>
+<li>
+<p>How should we evaluate XAI methods? There is no ground truth.</p>
+</li>
+<li>
+<p><code>Quantus</code> is a package implementing XAI-methods metrics in Python</p>
+</li>
+<li>
+<p>Notions of explainability:</p>
+<ul>
+<li>Axiomatic - does explanation fulfill certain axiomatic properties (e.g. Completeness or Input Invariance)</li>
+<li>Faithfulness - do explanations actually follow the predictive behaviour of the model</li>
+<li>Robustness - are explanations stable when subject to slight perturbations (given the model output stays approximately constant)</li>
+<li>Complexity - are the explanations small (only a few features explain a prediction)</li>
+<li>Randomization - some model / data randomization tests, &quot;Sanity Checks for Saliency Maps&quot;</li>
+</ul>
+</li>
+<li>
+<p>Take-home message</p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/take-home-evaluation.png" alt=""></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="homeworks">Homeworks</h3>
+<h4 id="shapley-values">Shapley Values</h4>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/hw2.png" alt=""></p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/hw2Solution.jpg" alt=""></p>
+<h4 id="pdp-me-ale">PDP, ME, ALE</h4>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/hw4.png" alt=""></p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/hw4Solution.png" alt=""></p>
+<h4 id="fairness">Fairness</h4>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/hw6.png" alt=""></p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/hw6solution1.png" alt=""></p>
+<p><img src="file:////home/maciejpioro/Documents/studia/xai-notes/hw6solution2.png" alt=""></p>
 
-        .alert-info {
-            background-color: var(--theme-info-background);
-            color: var(--theme-info-foreground);
-        }
-
-        .alert-warning {
-            background-color: var(--theme-warning-background);
-            color: var(--theme-warning-foreground);
-        }
-
-        .alert-danger {
-            background-color: var(--theme-error-background);
-            color: var(--theme-error-foreground);
-        }
-    </style>
-
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-    </style>
-    <style>
-        .task-list-item {
-            list-style-type: none;
-        }
-
-        .task-list-item-checkbox {
-            margin-left: -20px;
-            vertical-align: middle;
-            pointer-events: none;
-        }
-    </style>
-
-</head>
-
-<body class="vscode-body vscode-light">
-    <h1 id="sesja-zima-2023">Sesja Zima 2023</h1>
-    <h2 id="xai">XAI</h2>
-    <h3 id="lectures">Lectures</h3>
-    <ul>
-        <li>
-            <p><a
-                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/01_introduction.html">01_introduction.html</a>
-            </p>
-            <ul>
-                <li>
-                    <p>Methods can be</p>
-                    <ul>
-                        <li>Interpretable by design (kNN, linear regression, naive bayes)</li>
-                        <li>Model specific (e. g. gradient-flow based methods in Neural Networks)</li>
-                        <li><strong>Model agnostic ← main focus of this lecture</strong></li>
-                    </ul>
-                </li>
-                <li>
-                    <p>The pyramid of explainability:</p>
-                    <p><img src="file:////home/maciejpioro/Documents/studia/materiały sesja/xai_pyramid.webp" alt="">
-                    </p>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <p><a
-                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/02_shap.html">02_shap.html</a>
-            </p>
-            <ul>
-                <li>
-                    <p>Paper (A Unified Approach to Interpreting Model Predictions) introduces SHAP, based on the notion
-                        of Shapley values introduced in game theory</p>
-                </li>
-                <li>
-                    <p>SHAP is placed in (Model Prediction) x (Variable attribution) spot in XAI Pyramid</p>
-                </li>
-                <li>
-                    <p>SHAP corresponds to panel C on the following image</p>
-                    <p><img src="file:////home/maciejpioro/Documents/studia/materiały sesja/xai_piramide_shap2.png"
-                            alt=""></p>
-                </li>
-                <li>
-                    <p>Shapley values obey:</p>
-                    <ul>
-                        <li>Efficiency, i.e. all contributions sum up to the final reward</li>
-                        <li>Symmetry, i.e. if players <em>i</em> and <em>j</em> contribute in the same way to all
-                            coalitions, they get the same reward</li>
-                        <li><em>Dummy</em>, if a player doesn't contribute in any coalition, their reward is 0</li>
-                        <li>Additivity, i.e. ...</li>
-                    </ul>
-                </li>
-                <li>
-                    <p>Here come some equations on Shapley values</p>
-                </li>
-                <li>
-                    <p>Accurate computation of Shapley values is very time consuming, thus other approximating
-                        approaches are used</p>
-                </li>
-                <li>
-                    <p>Kernel-SHAP is one such approach - can be thought of as adaptation of LIME</p>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <p><a
-                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/03_lime.html">03_lime.html</a>
-            </p>
-            <ul>
-                <li>
-                    <p>LIME is a local explanation method focusing on the importance of features (just like SHAP)</p>
-                </li>
-                <li>
-                    <p>LIME is visualize on panel B in the following picture</p>
-                    <p><img src="file:////home/maciejpioro/Documents/studia/materiały sesja/xai_piramide_shap2.png"
-                            alt=""></p>
-                </li>
-                <li>
-                    <p>In contrast with SHAP, here the attributions don't necessarily add up to 1</p>
-                </li>
-                <li>
-                    <p>In this approach:</p>
-                    <ul>
-                        <li>A sample is selected</li>
-                        <li>The sample is encoded into binary (interpretable) space, e.g. split into superpixels</li>
-                        <li>N samples around the actual datapoint are created by masking some features. Original model's
-                            outputs are computed for the artificial samples</li>
-                        <li>K-LASSO model is created and fit to the binary representations of the artificial datapoints
-                        </li>
-                        <li>K-LASSO coefficients corresponding to the elements of the the interpretable space are
-                            features attributions</li>
-                    </ul>
-                </li>
-                <li>
-                    <p>Common ways of creating a binary interpretable space:</p>
-                    <ul>
-                        <li>Vision: superpixels</li>
-                        <li>NLP: words / groups of words</li>
-                        <li>Tabular data: continuous variables can be discretized (e.g. split into quartiles).
-                            Categorical variables can be one-hot encoded.</li>
-                    </ul>
-                </li>
-                <li>
-                    <p>There are some methods for creating global explanations based on LIME (e.g. Submodular Pick)</p>
-                </li>
-                <li>
-                    <p>A problem with LIME is that it does not account for interactions between features, being an
-                        additive model</p>
-                </li>
-                <li>
-                    <p><em>Anchors</em> is a method aimed at fixing this issue: it searches for <em>sufficient
-                            conditions</em> for the model to produce the actual output. E.g. in the following picture we
-                        can see a set of features <em>sufficient</em> for the model to decide a picture shows a dog</p>
-                </li>
-            </ul>
-            <p><img src="file:////home/maciejpioro/Documents/studia/materiały sesja/anchors_1.png" alt=""></p>
-            <ul>
-                <li>
-                    <p>Another local method is <em>LORE</em> (Local Rule-Based Explanations). With the help of a genetic
-                        algorithm, a set of points representing both class 1 and 0 similar to a given point <em>x</em>
-                        is created. Then, a decision tree is trained and used to create both an <em>explanation</em> and
-                        a <em>conterfactual explanation</em> (what should be changed so that the model prediction for
-                        <em>x</em> flips).</p>
-                </li>
-                <li>
-                    <p>Take home message:</p>
-                    <p><img src="file:////home/maciejpioro/Documents/studia/materiały sesja/xai_take_home_2.png" alt="">
-                    </p>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <p><a
-                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/04_pdp.html">04_pdp.html</a>
-            </p>
-        </li>
-        <li>
-            <p><a
-                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/05_vip.html">05_vip.html</a>
-            </p>
-        </li>
-        <li>
-            <p><a
-                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/06_fairness.html">06_fairness.html</a>
-            </p>
-        </li>
-        <li>
-            <p><a
-                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/07_networks.html">07_networks.html</a>
-            </p>
-        </li>
-        <li>
-            <p><a
-                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/08_evaluation.html">08_evaluation.html</a>
-            </p>
-        </li>
-    </ul>
-    <h3 id="homeworks">Homeworks</h3>
-    <h2 id="irio">IRIO</h2>
-    <h2 id="bml">BML</h2>
-
-
-
-</body>
-
-</html>
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>
