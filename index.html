@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lectures</title>
+    <style>
+        /* From extension vscode.github */
+        /*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+        .vscode-dark img[src$=\#gh-light-mode-only],
+        .vscode-light img[src$=\#gh-dark-mode-only] {
+            display: none;
+        }
+
+        /* From extension ms-toolsai.jupyter */
+        /* These classnames are inherited from bootstrap, but are present in most notebook renderers */
+
+        .alert {
+            width: auto;
+            padding: 1em;
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
+
+        .alert>*:last-child {
+            margin-bottom: 0;
+        }
+
+        #preview>.alert:last-child {
+            /* Prevent this being set to zero by the default notebook stylesheet */
+            padding-bottom: 1em;
+        }
+
+        .alert-success {
+            /* Note there is no suitable color available, so we just copy "info" */
+            background-color: var(--theme-info-background);
+            color: var(--theme-info-foreground);
+        }
+
+        .alert-info {
+            background-color: var(--theme-info-background);
+            color: var(--theme-info-foreground);
+        }
+
+        .alert-warning {
+            background-color: var(--theme-warning-background);
+            color: var(--theme-warning-foreground);
+        }
+
+        .alert-danger {
+            background-color: var(--theme-error-background);
+            color: var(--theme-error-foreground);
+        }
+    </style>
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+    </style>
+    <style>
+        .task-list-item {
+            list-style-type: none;
+        }
+
+        .task-list-item-checkbox {
+            margin-left: -20px;
+            vertical-align: middle;
+            pointer-events: none;
+        }
+    </style>
+
+</head>
+
+<body class="vscode-body vscode-light">
+    <h1 id="sesja-zima-2023">Sesja Zima 2023</h1>
+    <h2 id="xai">XAI</h2>
+    <h3 id="lectures">Lectures</h3>
+    <ul>
+        <li>
+            <p><a
+                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/01_introduction.html">01_introduction.html</a>
+            </p>
+            <ul>
+                <li>
+                    <p>Methods can be</p>
+                    <ul>
+                        <li>Interpretable by design (kNN, linear regression, naive bayes)</li>
+                        <li>Model specific (e. g. gradient-flow based methods in Neural Networks)</li>
+                        <li><strong>Model agnostic ← main focus of this lecture</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <p>The pyramid of explainability:</p>
+                    <p><img src="file:////home/maciejpioro/Documents/studia/materiały sesja/xai_pyramid.webp" alt="">
+                    </p>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <p><a
+                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/02_shap.html">02_shap.html</a>
+            </p>
+            <ul>
+                <li>
+                    <p>Paper (A Unified Approach to Interpreting Model Predictions) introduces SHAP, based on the notion
+                        of Shapley values introduced in game theory</p>
+                </li>
+                <li>
+                    <p>SHAP is placed in (Model Prediction) x (Variable attribution) spot in XAI Pyramid</p>
+                </li>
+                <li>
+                    <p>SHAP corresponds to panel C on the following image</p>
+                    <p><img src="file:////home/maciejpioro/Documents/studia/materiały sesja/xai_piramide_shap2.png"
+                            alt=""></p>
+                </li>
+                <li>
+                    <p>Shapley values obey:</p>
+                    <ul>
+                        <li>Efficiency, i.e. all contributions sum up to the final reward</li>
+                        <li>Symmetry, i.e. if players <em>i</em> and <em>j</em> contribute in the same way to all
+                            coalitions, they get the same reward</li>
+                        <li><em>Dummy</em>, if a player doesn't contribute in any coalition, their reward is 0</li>
+                        <li>Additivity, i.e. ...</li>
+                    </ul>
+                </li>
+                <li>
+                    <p>Here come some equations on Shapley values</p>
+                </li>
+                <li>
+                    <p>Accurate computation of Shapley values is very time consuming, thus other approximating
+                        approaches are used</p>
+                </li>
+                <li>
+                    <p>Kernel-SHAP is one such approach - can be thought of as adaptation of LIME</p>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <p><a
+                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/03_lime.html">03_lime.html</a>
+            </p>
+            <ul>
+                <li>
+                    <p>LIME is a local explanation method focusing on the importance of features (just like SHAP)</p>
+                </li>
+                <li>
+                    <p>LIME is visualize on panel B in the following picture</p>
+                    <p><img src="file:////home/maciejpioro/Documents/studia/materiały sesja/xai_piramide_shap2.png"
+                            alt=""></p>
+                </li>
+                <li>
+                    <p>In contrast with SHAP, here the attributions don't necessarily add up to 1</p>
+                </li>
+                <li>
+                    <p>In this approach:</p>
+                    <ul>
+                        <li>A sample is selected</li>
+                        <li>The sample is encoded into binary (interpretable) space, e.g. split into superpixels</li>
+                        <li>N samples around the actual datapoint are created by masking some features. Original model's
+                            outputs are computed for the artificial samples</li>
+                        <li>K-LASSO model is created and fit to the binary representations of the artificial datapoints
+                        </li>
+                        <li>K-LASSO coefficients corresponding to the elements of the the interpretable space are
+                            features attributions</li>
+                    </ul>
+                </li>
+                <li>
+                    <p>Common ways of creating a binary interpretable space:</p>
+                    <ul>
+                        <li>Vision: superpixels</li>
+                        <li>NLP: words / groups of words</li>
+                        <li>Tabular data: continuous variables can be discretized (e.g. split into quartiles).
+                            Categorical variables can be one-hot encoded.</li>
+                    </ul>
+                </li>
+                <li>
+                    <p>There are some methods for creating global explanations based on LIME (e.g. Submodular Pick)</p>
+                </li>
+                <li>
+                    <p>A problem with LIME is that it does not account for interactions between features, being an
+                        additive model</p>
+                </li>
+                <li>
+                    <p><em>Anchors</em> is a method aimed at fixing this issue: it searches for <em>sufficient
+                            conditions</em> for the model to produce the actual output. E.g. in the following picture we
+                        can see a set of features <em>sufficient</em> for the model to decide a picture shows a dog</p>
+                </li>
+            </ul>
+            <p><img src="file:////home/maciejpioro/Documents/studia/materiały sesja/anchors_1.png" alt=""></p>
+            <ul>
+                <li>
+                    <p>Another local method is <em>LORE</em> (Local Rule-Based Explanations). With the help of a genetic
+                        algorithm, a set of points representing both class 1 and 0 similar to a given point <em>x</em>
+                        is created. Then, a decision tree is trained and used to create both an <em>explanation</em> and
+                        a <em>conterfactual explanation</em> (what should be changed so that the model prediction for
+                        <em>x</em> flips).</p>
+                </li>
+                <li>
+                    <p>Take home message:</p>
+                    <p><img src="file:////home/maciejpioro/Documents/studia/materiały sesja/xai_take_home_2.png" alt="">
+                    </p>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <p><a
+                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/04_pdp.html">04_pdp.html</a>
+            </p>
+        </li>
+        <li>
+            <p><a
+                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/05_vip.html">05_vip.html</a>
+            </p>
+        </li>
+        <li>
+            <p><a
+                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/06_fairness.html">06_fairness.html</a>
+            </p>
+        </li>
+        <li>
+            <p><a
+                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/07_networks.html">07_networks.html</a>
+            </p>
+        </li>
+        <li>
+            <p><a
+                    href="https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/08_evaluation.html">08_evaluation.html</a>
+            </p>
+        </li>
+    </ul>
+    <h3 id="homeworks">Homeworks</h3>
+    <h2 id="irio">IRIO</h2>
+    <h2 id="bml">BML</h2>
+
+
+
+</body>
+
+</html>
