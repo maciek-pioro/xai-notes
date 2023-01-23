@@ -10,26 +10,26 @@ XAI
         *   Interpretable by design (kNN, linear regression, naive bayes)
         *   Model specific (e. g. gradient-flow based methods in Neural Networks)
         *   **Model agnostic ← main focus of this lecture**
-    *   The pyramid of explainability: 
-            
+    *   The pyramid of explainability:
+
         ![](xai_pyramid.webp)
 *   [02\_shap.html](https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/02_shap.html)
     *   Paper (A Unified Approach to Interpreting Model Predictions) introduces SHAP, based on the notion of Shapley values introduced in game theory
     *   SHAP is placed in (Model Prediction) x (Variable attribution) spot in XAI Pyramid
     *   SHAP corresponds to panel C on the following image
-  
+
         ![](xai_piramide_shap2.png)
     * Shapley values obey:
       * Efficiency, i.e. all contributions sum up to the final reward
       * Symmetry, i.e. if players _i_ and _j_ contribute in the same way to all coalitions, they get the same reward
-      * _Dummy_, if a player doesn't contribute in any coalition, their reward is 0 
+      * _Dummy_, if a player doesn't contribute in any coalition, their reward is 0
       * Additivity, i.e. ...
     * When we want to use Shapley values with an ML model we have:
       * The reward to be distributed:
-      
+
         ![](shap_reward.png)
-      * Payoff value function for coalition S: 
-        
+      * Payoff value function for coalition S:
+
         ![](shap_payoff.png)
       * And Shapley values via permutations:
 
@@ -40,14 +40,14 @@ XAI
       * If the variable doesn't enter the coalition, its value is sampled from the dataset
       * The linear regression coefficients of the fitted model are estimated Shapley values
     * Tree SHAP:
-      * 
+      * Explained here: https://medium.com/analytics-vidhya/shap-part-3-tree-shap-3af9bcd7cd9b 
     * Take home message:
-      
+
       ![](take_home_shap.png)
 *   [03\_lime.html](https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/03_lime.html)
     *  LIME is a local explanation method focusing on the importance of features (just like SHAP)
     *  LIME is visualize on panel B in the following picture
-       
+
        ![](xai_piramide_shap2.png)
     * In contrast with SHAP, here the attributions don't necessarily add up to 1
     * In this approach:
@@ -67,15 +67,15 @@ XAI
     ![](anchors_1.png)
 
     * Another local method is *LORE* (Local Rule-Based Explanations). With the help of a genetic algorithm, a set of points representing both class 1 and 0 similar to a given point *x* is created. Then, a decision tree is trained and used to create both an *explanation* and a *conterfactual explanation* (what should be changed so that the model prediction for *x* flips).
-    * Take home message: 
-        
+    * Take home message:
+
         ![](xai_take_home_2.png)
 *   [04\_pdp.html](https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/04_pdp.html)
     * CP, PDP and ALE live on the third level of the XAI pyramid:
 
       ![](xai_pyramid.webp)
     * These methods correspond to panel A in the following illustration:
-      
+
       ![](xai_piramide_shap2.png)
     * Motivation: methods like SHAP or LIME don't tell us _what if_ the value of some variable was higher. That's why we turn to methods like CP.
     * CP: For a given point X we create an explanation:
@@ -97,7 +97,7 @@ XAI
     * ![](take-home-cp.png)
 *   [05\_vip.html](https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/05_vip.html)
     *   An issue with all the methods up to this point is that they only consider one model to infer the importance of variable
-    *   
+    *
 *   [06\_fairness.html](https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/06_fairness.html)
     *   There are many possible source of bias in the data:
         *   Historical bias
@@ -154,7 +154,7 @@ XAI
         ![](take-home-nns.png)
 *   [08\_evaluation.html](https://htmlpreview.github.io/?https://github.com/mim-uw/eXplainableMachineLearning-2023/blob/main/Lectures/08_evaluation.html)
     *   How should we evaluate XAI methods? There is no ground truth.
-    *   `Quantus` is a package implementing XAI-methods metrics in Python 
+    *   `Quantus` is a package implementing XAI-methods metrics in Python
     *   Notions of explainability:
         *   Axiomatic - does explanation fulfill certain axiomatic properties (e.g. Completeness or Input Invariance)
         *   Faithfulness - do explanations actually follow the predictive behaviour of the model
@@ -162,7 +162,7 @@ XAI
         *   Complexity - are the explanations small (only a few features explain a prediction)
         *   Randomization - some model / data randomization tests, "Sanity Checks for Saliency Maps"
     *   Take-home message
-        
+
         ![](take-home-evaluation.png)
 ### Homeworks
 #### Shapley Values
